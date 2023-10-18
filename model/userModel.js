@@ -1,3 +1,5 @@
+const Joi = require("joi");
+
 const authorizeSchema = Joi.object({
   username: Joi.string().required().messages({
     "any.required": "Missing required Password field",
@@ -13,4 +15,13 @@ const authorizeSchema = Joi.object({
   }),
 });
 
-module.exports = { authorizeSchema };
+const loginSchema = Joi.object({
+  email: Joi.string().email().required().messages({
+    "any.required": "Missing required Email field",
+  }),
+  password: Joi.string().required().messages({
+    "any.required": "Missing required Password field",
+  }),
+});
+module.exports = { authorizeSchema, loginSchema };
+
