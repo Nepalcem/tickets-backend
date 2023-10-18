@@ -12,7 +12,8 @@ const config = {
     user: MYSQL_USER,
     password: MYSQL_PASSWORD,
     database: MYSQL_DATABASE,
-    connectTimeout: 60000,
+    port: 3306,
+    connectTimeout: 10000,
   },
 };
 module.exports = config;

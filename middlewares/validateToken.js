@@ -1,4 +1,4 @@
-const pool = require("../server");
+const db = require("../utils/db");
 const verifyToken = require("../utils/decodeToken");
 
 exports.validateToken = async (req, res, next) => {
@@ -10,16 +10,15 @@ exports.validateToken = async (req, res, next) => {
   }
 
   const decoded = verifyToken(token);
+
   if (!decoded) {
     return res.status(401).json({ message: "Not authorized" });
   }
 
-  const query = "SELECT * FROM users WHERE id = ?";
-  pool.query(query, [decoded.id], (error, results, fields) => {
-    if (error) {
-      console.error(error.message);
-      return res.status(500).json({ error: "Internal Server Error" });
-    }
+  try {
+    const results = await db.query("SELECT * FROM users WHERE id = ?", [
+      decoded.id,
+    ]);
 
     if (results.length === 0) {
       return res.status(401).json({ message: "Not authorized" });
@@ -27,5 +26,8 @@ exports.validateToken = async (req, res, next) => {
 
     req.user = results[0];
     next();
-  });
+  } catch (error) {
+    console.error(error.message);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
 };

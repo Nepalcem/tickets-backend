@@ -28,15 +28,14 @@ exports.authorizationController = async (req, res) => {
   const { email, password } = req.body;
   try {
     const query = "SELECT * FROM users WHERE email = ?";
-      const [results] = await db.query(query, [email]); //return object
-      
+    const [results] = await db.query(query, [email]); //return object
 
     if (Object.keys(results).length === 0) {
       return res.status(401).json({ message: "Email or password is wrong" });
     }
 
-      const user = results;
-console.log(typeof(user));
+    const user = results;
+
     const passwordCompare = await bcrypt.compare(password, user.password);
 
     if (!passwordCompare) {
@@ -60,15 +59,15 @@ console.log(typeof(user));
   }
 };
 
-// exports.logoutUser = async (req, res) => {
-//   const { id } = req.user;
-//   try {
-//     const updateTokenQuery = "UPDATE users SET token = ? WHERE id = ?";
-//     pool.query(updateTokenQuery, ["", id], (error, results, fields) => {
-//       return res.status(204).json({ message: "Logout successful" });
-//     });
-//   } catch (error) {
-//     console.error(error.message);
-//     return res.status(500).json({ error: "Internal Server Error" });
-//   }
-// };
+exports.logoutUser = async (req, res) => {
+  const { id } = req.user;
+
+  try {
+    const updateTokenQuery = "UPDATE users SET token = ? WHERE id = ?";
+    await db.query(updateTokenQuery, ["", id]);
+    return res.status(200).json({ message: "Logout successful" });
+  } catch (error) {
+    console.error(error.message);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};

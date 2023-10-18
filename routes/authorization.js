@@ -28,6 +28,6 @@ router.post(
   validateUserLoginFields,
   authorizationController
 );
-// router.post("/logout", validateToken, logoutUser);
+router.post("/logout", validateToken, logoutUser);
 
 module.exports = router;
