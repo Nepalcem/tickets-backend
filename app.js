@@ -2,6 +2,7 @@ const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
 const authorizeRouter = require("./routes/authorization");
+const dealsRouter = require("./routes/deals");
 
 const app = express();
 
@@ -11,6 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/users", authorizeRouter);
+app.use("/deals", dealsRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
