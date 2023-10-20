@@ -2,10 +2,10 @@ const db = require("../utils/db");
 
 exports.getDeals = async (req, res) => {
   try {
-    const query = "SELECT * FROM deals";
-    const results = await db.query(query);
+    const results = await db.query("SELECT * FROM deals", []);
     res.json(results);
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };

@@ -16,7 +16,7 @@ exports.validateToken = async (req, res, next) => {
   }
 
   try {
-    const results = await db.query("SELECT * FROM users WHERE id = ?", [
+    const results = await db.query("SELECT * FROM users WHERE ID = ?", [
       decoded.id,
     ]);
 
@@ -25,6 +25,7 @@ exports.validateToken = async (req, res, next) => {
     }
 
     req.user = results[0];
+
     next();
   } catch (error) {
     console.error(error.message);
