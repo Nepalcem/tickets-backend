@@ -42,14 +42,14 @@ exports.authorizationController = async (req, res) => {
       return res.status(401).json({ message: "Email or password is wrong" });
     }
 
-    const token = signToken(user.id);
+    const token = signToken(user.ID);
     const updateTokenQuery = "UPDATE users SET token = ? WHERE id = ?";
-    await db.query(updateTokenQuery, [token, user.id]);
+    await db.query(updateTokenQuery, [token, user.ID]);
 
     return res.status(200).json({
       token,
       user: {
-        id: user.id,
+        id: user.ID,
         username: user.username,
       },
     });
