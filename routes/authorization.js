@@ -10,6 +10,7 @@ const {
   registrationController,
   authorizationController,
   logoutUser,
+  getCurrentUser
 } = require("../controllers/authorizeController");
 const { validateToken } = require("../middlewares/validateToken");
 
@@ -29,5 +30,7 @@ router.post(
   authorizationController
 );
 router.post("/logout", validateToken, logoutUser);
+router.get("/current", getCurrentUser);
+
 
 module.exports = router;
